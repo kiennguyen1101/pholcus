@@ -55,8 +55,8 @@ var GuiOpt = struct {
 	ProxyMinute []*KV
 }{
 	Mode: []*KV{
-		{Key: "单机", Int: status.OFFLINE},
-		{Key: "服务器", Int: status.SERVER},
+		{Key: "Stand-alone", Int: status.OFFLINE},
+		{Key: "Server", Int: status.SERVER},
 		{Key: "客户端", Int: status.CLIENT},
 	},
 	Pausetime: []*KV{
@@ -74,7 +74,7 @@ var GuiOpt = struct {
 		{Key: "60 秒", Int64: 60000},
 	},
 	ProxyMinute: []*KV{
-		{Key: "不使用代理", Int64: 0},
+		{Key: "Do not use a proxy", Int64: 0},
 		{Key: "1 分钟", Int64: 1},
 		{Key: "3 分钟", Int64: 3},
 		{Key: "5 分钟", Int64: 5},

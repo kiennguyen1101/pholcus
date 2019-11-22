@@ -164,7 +164,7 @@ func init() {
 	wsApi["init"] = func(sessID string, req map[string]interface{}) {
 		var mode = util.Atoi(req["mode"])
 		var port = util.Atoi(req["port"])
-		var master = util.Atoa(req["ip"]) //服务器(主节点)地址，不含端口
+		var master = util.Atoa(req["ip"]) //Server(主节点)地址，不含端口
 		currMode := app.LogicApp.GetAppConf("mode").(int)
 		if currMode == status.UNSET {
 			app.LogicApp.Init(mode, port, master, Lsc) // 运行模式初始化，设置log输出目标
@@ -233,11 +233,11 @@ func tplData(mode int) map[string]interface{} {
 	// 运行模式标题
 	switch mode {
 	case status.OFFLINE:
-		info["title"] = config.FULL_NAME + "                                                          【 运行模式 ->  单机 】"
+		info["title"] = config.FULL_NAME + "                                                          【 Operating mode ->  Stand-alone 】"
 	case status.SERVER:
-		info["title"] = config.FULL_NAME + "                                                          【 运行模式 ->  服务端 】"
+		info["title"] = config.FULL_NAME + "                                                          【 Operating mode ->  服务端 】"
 	case status.CLIENT:
-		info["title"] = config.FULL_NAME + "                                                          【 运行模式 ->  客户端 】"
+		info["title"] = config.FULL_NAME + "                                                          【 Operating mode ->  客户端 】"
 	}
 
 	if mode == status.CLIENT {
@@ -261,32 +261,32 @@ func tplData(mode int) map[string]interface{} {
 		}(),
 	}
 
-	// 输出方式清单
+	// Output method list
 	info["OutType"] = map[string]interface{}{
 		"menu": app.LogicApp.GetOutputLib(),
 		"curr": app.LogicApp.GetAppConf("OutType"),
 	}
 
-	// 并发协程上限
+	// Concurrent schedule limit
 	info["ThreadNum"] = map[string]int{
 		"max":  999999,
 		"min":  1,
 		"curr": app.LogicApp.GetAppConf("ThreadNum").(int),
 	}
 
-	// 暂停区间/ms(随机: Pausetime/2 ~ Pausetime*2)
+	// Pause interval / ms (random: Pausetime/2 ~ Pausetime*2)
 	info["Pausetime"] = map[string][]int64{
 		"menu": {0, 100, 300, 500, 1000, 3000, 5000, 10000, 15000, 20000, 30000, 60000},
 		"curr": []int64{app.LogicApp.GetAppConf("Pausetime").(int64)},
 	}
 
-	// 代理IP更换的间隔分钟数
+	// Interval minutes for proxy IP replacement
 	info["ProxyMinute"] = map[string][]int64{
 		"menu": {0, 1, 3, 5, 10, 15, 20, 30, 45, 60, 120, 180},
 		"curr": []int64{app.LogicApp.GetAppConf("ProxyMinute").(int64)},
 	}
 
-	// 分批输出的容量
+	// Batch output capacity
 	info["DockerCap"] = map[string]int{
 		"min":  1,
 		"max":  5000000,
@@ -300,7 +300,7 @@ func tplData(mode int) map[string]interface{} {
 		info["Limit"] = app.LogicApp.GetAppConf("Limit")
 	}
 
-	// 自定义配置
+	// Custom configuration
 	info["Keyins"] = app.LogicApp.GetAppConf("Keyins")
 
 	// 继承历史记录

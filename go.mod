@@ -11,10 +11,12 @@ require (
 	github.com/henrylee2cn/goutil v0.0.0-20190807075143-e8afa09140e9
 	github.com/henrylee2cn/pholcus_lib v0.0.0-20180312025545-3ffb61273b75
 	github.com/henrylee2cn/teleport v1.0.0
+	github.com/jteeuwen/go-bindata v3.0.7+incompatible // indirect
 	github.com/kr/beanstalk v0.0.0-20180818045031-cae1762e4858
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/lxn/walk v0.0.0-20190619151032-86d8802c197a
 	github.com/lxn/win v0.0.0-20190716185335-d1d36f0e4f48
+	github.com/pkg/errors v0.8.1
 	github.com/robertkrimen/otto v0.0.0-20180617131154-15f95af6e78d
 	github.com/tidwall/gjson v1.3.2 // indirect
 	golang.org/x/net v0.0.0-20190724013045-ca1201d0de80

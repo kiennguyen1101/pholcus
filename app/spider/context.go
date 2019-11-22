@@ -22,14 +22,14 @@ import (
 )
 
 type Context struct {
-	spider   *Spider           // 规则
-	Request  *request.Request  // 原始请求
-	Response *http.Response    // 响应流，其中URL拷贝自*request.Request
-	text     []byte            // 下载内容Body的字节流格式
-	dom      *goquery.Document // 下载内容Body为html时，可转换为Dom的对象
-	items    []data.DataCell   // 存放以文本形式输出的结果数据
-	files    []data.FileCell   // 存放欲直接输出的文件("Name": string; "Body": io.ReadCloser)
-	err      error             // 错误标记
+	spider   *Spider           // rule
+	Request  *request.Request  // original request
+	Response *http.Response    // response stream, where the URL is copied from *request.Request
+	text     []byte            // Download the byte stream format of the content body
+	dom      *goquery.Document // Download the object that can be converted to Dom when the content is html
+	items    []data.DataCell   // Stores the result data output as text
+	files    []data.FileCell   // Stores the file to be directly output ("Name": string; "Body": io.ReadCloser)
+	err      error             // error flag
 	sync.Mutex
 }
 
@@ -44,7 +44,7 @@ var (
 	}
 )
 
-//**************************************** 初始化 *******************************************\\
+//**************************************** Initialization *******************************************\\
 
 func GetContext(sp *Spider, req *request.Request) *Context {
 	ctx := contextPool.Get().(*Context)
@@ -78,23 +78,23 @@ func (self *Context) SetError(err error) {
 	self.err = err
 }
 
-//**************************************** Set与Exec类公开方法 *******************************************\\
+//**************************************** Set and Exec class public methods** *****************************************\\
 
-// 生成并添加请求至队列。
-// Request.Url与Request.Rule必须设置。
-// Request.Spider无需手动设置(由系统自动设置)。
-// Request.EnableCookie在Spider字段中统一设置，规则请求中指定的无效。
-// 以下字段有默认值，可不设置:
-// Request.Method默认为GET方法;
-// Request.DialTimeout默认为常量request.DefaultDialTimeout，小于0时不限制等待响应时长;
-// Request.ConnTimeout默认为常量request.DefaultConnTimeout，小于0时不限制下载超时;
-// Request.TryTimes默认为常量request.DefaultTryTimes，小于0时不限制失败重载次数;
-// Request.RedirectTimes默认不限制重定向次数，小于0时可禁止重定向跳转;
-// Request.RetryPause默认为常量request.DefaultRetryPause;
-// Request.DownloaderID指定下载器ID，0为默认的Surf高并发下载器，功能完备，1为PhantomJS下载器，特点破防力强，速度慢，低并发。
-// 默认自动补填Referer。
+// Generate and add a request to the queue.
+// Request.Url and Request.Rule must be set.
+// Request.Spider does not need to be set manually (set by the system automatically).
+// Request.EnableCookie is set uniformly in the Spider field, and the specified in the rule request is invalid.
+// The following fields have default values, which can be left unset:
+// Request.Method defaults to the GET method;
+// Request.DialTimeout defaults to the constant request.DefaultDialTimeout. If it is less than 0, it does not limit the waiting response time.
+// Request.ConnTimeout defaults to the constant request.DefaultConnTimeout. If it is less than 0, it does not limit the download timeout.
+// Request.TryTimes defaults to the constant request.DefaultTryTimes, which is less than 0 and does not limit the number of failed reloads;
+// Request.RedirectTimes does not limit the number of redirects by default. If it is less than 0, redirect redirects can be disabled.
+// Request.RetryPause defaults to the constant request.DefaultRetryPause;
+// Request.DownloaderID specifies the downloader ID, 0 is the default Surf high concurrent downloader, full-featured, 1 is PhantomJS downloader, featuring strong defense, slow speed, low concurrency.
+// Automatically fill in the Referer by default.
 func (self *Context) AddQueue(req *request.Request) *Context {
-	// 若已主动终止任务，则崩溃爬虫协程
+	// Crash crawler coroutine if the task has been actively terminated
 	self.spider.tryPanic()
 
 	err := req.
@@ -107,7 +107,7 @@ func (self *Context) AddQueue(req *request.Request) *Context {
 		return self
 	}
 
-	// 自动设置Referer
+	// Automatically set the Referer
 	if req.GetReferer() == "" && self.Response != nil {
 		req.SetReferer(self.GetUrl())
 	}
@@ -116,9 +116,9 @@ func (self *Context) AddQueue(req *request.Request) *Context {
 	return self
 }
 
-// 用于动态规则添加请求。
+// Used for dynamic rule add requests.
 func (self *Context) JsAddQueue(jreq map[string]interface{}) *Context {
-	// 若已主动终止任务，则崩溃爬虫协程
+	// Crash crawler coroutine if the task has been actively terminated
 	self.spider.tryPanic()
 
 	req := &request.Request{}
@@ -184,10 +184,10 @@ func (self *Context) JsAddQueue(jreq map[string]interface{}) *Context {
 	return self
 }
 
-// 输出文本结果。
-// item类型为map[int]interface{}时，根据ruleName现有的ItemFields字段进行输出，
-// item类型为map[string]interface{}时，ruleName不存在的ItemFields字段将被自动添加，
-// ruleName为空时默认当前规则。
+// Output text results.
+// When the item type is map[int]interface{}, the output is based on the existing ItemFields field of ruleName.
+// When the item type is map[string]interface{}, the ItemFields field whose ruleName does not exist will be added automatically.
+// The default current rule when ruleName is empty.
 func (self *Context) Output(item interface{}, ruleName ...string) {
 	_ruleName, rule, found := self.getRule(ruleName...)
 	if !found {
@@ -218,8 +218,8 @@ func (self *Context) Output(item interface{}, ruleName ...string) {
 	self.Unlock()
 }
 
-// 输出文件。
-// nameOrExt指定文件名或仅扩展名，为空时默认保持原文件名（包括扩展名）不变。
+// Output file.
+// nameOrExt specifies the file name or extension only. When it is empty, the original file name (including the extension) is kept unchanged by default.
 func (self *Context) FileOutput(nameOrExt ...string) {
 	// 读取完整文件流
 	bytes, err := ioutil.ReadAll(self.Response.Body)
@@ -229,7 +229,7 @@ func (self *Context) FileOutput(nameOrExt ...string) {
 		return
 	}
 
-	// 智能设置完整文件名
+	// Smart set full file name
 	_, s := path.Split(self.GetUrl())
 	n := strings.Split(s, "?")[0]
 
@@ -655,7 +655,7 @@ func (self *Context) initText() {
 		}
 	}
 
-	// 不做转码处理
+	// Do not transcode
 	self.text, err = ioutil.ReadAll(self.Response.Body)
 	self.Response.Body.Close()
 	if err != nil {
@@ -666,8 +666,8 @@ func (self *Context) initText() {
 }
 
 /**
- * 编码类型参考
- * 不区分大小写
+ * Encoding type reference
+ * not case sensitive
  *var nameMap = map[string]htmlEncoding{
 	"unicode-1-1-utf-8":   utf8,
 	"utf-8":               utf8,

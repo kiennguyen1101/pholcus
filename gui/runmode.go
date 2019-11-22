@@ -24,7 +24,7 @@ func runmodeWindow() {
 
 			RadioButtonGroupBox{
 				AssignTo: &mode,
-				Title:    "*运行模式",
+				Title:    "*Operating mode",
 				Layout:   HBox{},
 				MinSize:  Size{0, 70},
 

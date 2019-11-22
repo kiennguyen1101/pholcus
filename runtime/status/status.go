@@ -1,6 +1,6 @@
 package status
 
-// 运行模式
+// Operating mode
 const (
 	UNSET int = iota - 1
 	OFFLINE

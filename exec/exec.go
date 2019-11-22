@@ -54,11 +54,11 @@ func DefaultRun(uiDefault string) {
 }
 
 func flagCommon() {
-	//运行模式
+	//Operating mode
 	modeflag = flag.Int(
 		"a_mode",
 		cache.Task.Mode,
-		"   <运行模式: ["+strconv.Itoa(status.OFFLINE)+"] 单机    ["+strconv.Itoa(status.SERVER)+"] 服务端    ["+strconv.Itoa(status.CLIENT)+"] 客户端>")
+		"   <Operating mode: ["+strconv.Itoa(status.OFFLINE)+"] 单机    ["+strconv.Itoa(status.SERVER)+"] 服务端    ["+strconv.Itoa(status.CLIENT)+"] 客户端>")
 
 	//端口号，非单机模式填写
 	portflag = flag.Int(
@@ -72,11 +72,11 @@ func flagCommon() {
 		cache.Task.Master,
 		"   <服务端IP: 不含端口，客户端模式下使用>")
 
-	// 自定义配置
+	// Custom configuration
 	keyinsflag = flag.String(
 		"a_keyins",
 		cache.Task.Keyins,
-		"   <自定义配置: 多任务请分别多包一层“<>”>")
+		"   <Custom configuration: 多任务请分别多包一层“<>”>")
 
 	// 采集上限
 	limitflag = flag.Int64(
@@ -84,7 +84,7 @@ func flagCommon() {
 		cache.Task.Limit,
 		"   <采集上限（默认限制URL数）> [>=0]")
 
-	// 输出方式
+	// Output Method
 	outputflag = flag.String(
 		"a_outtype",
 		cache.Task.OutType,
@@ -93,14 +93,14 @@ func flagCommon() {
 			for _, v := range app.LogicApp.GetOutputLib() {
 				outputlib += "[" + v + "] "
 			}
-			return "   <输出方式: > " + strings.TrimRight(outputlib, " ")
+			return "   <Output Method: > " + strings.TrimRight(outputlib, " ")
 		}())
 
-	// 并发协程数
+	// Number of concurrent associations
 	threadflag = flag.Int(
 		"a_thread",
 		cache.Task.ThreadNum,
-		"   <并发协程> [1~99999]")
+		"   <Concurrent coroutine> [1~99999]")
 
 	// 平均暂停时间
 	pauseflag = flag.Int64(
@@ -108,11 +108,11 @@ func flagCommon() {
 		cache.Task.Pausetime,
 		"   <平均暂停时间/ms> [>=100]")
 
-	// 代理IP更换频率
+	// Proxy IP replacement frequency
 	proxyflag = flag.Int64(
 		"a_proxyminute",
 		cache.Task.ProxyMinute,
-		"   <代理IP更换频率: /m，为0时不使用代理> [>=0]")
+		"   <Proxy IP replacement frequency: /m，Do not use proxy when 0> [>=0]")
 
 	// 分批输出
 	dockerflag = flag.Int(
@@ -124,13 +124,13 @@ func flagCommon() {
 	successInheritflag = flag.Bool(
 		"a_success",
 		cache.Task.SuccessInherit,
-		"   <继承并保存成功记录> [true] [false]")
+		"   <Inherit and save a successful record> [true] [false]")
 
 	// 继承历史失败记录
 	failureInheritflag = flag.Bool(
 		"a_failure",
 		cache.Task.FailureInherit,
-		"   <继承并保存失败记录> [true] [false]")
+		"   <Inherit and save the failed record> [true] [false]")
 }
 
 func writeFlag() {

@@ -1,0 +1,9 @@
+version: "3.5"
+services:
+  pholcus:
+    image: golang:latest
+    volumes:
+      - ./:/go/src
+    ports:
+      - "9090:9090"
+    tty: true

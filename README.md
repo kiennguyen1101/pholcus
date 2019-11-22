@@ -1,13 +1,12 @@
-# Pholcus [![GitHub release](https://img.shields.io/github/release/henrylee2cn/pholcus.svg?style=flat-square)](https://github.com/henrylee2cn/pholcus/releases) [![report card](https://goreportcard.com/badge/github.com/henrylee2cn/pholcus?style=flat-square)](http://goreportcard.com/report/henrylee2cn/pholcus) [![github issues](https://img.shields.io/github/issues/henrylee2cn/pholcus.svg?style=flat-square)](https://github.com/henrylee2cn/pholcus/issues?q=is%3Aopen+is%3Aissue) [![github closed issues](https://img.shields.io/github/issues-closed-raw/henrylee2cn/pholcus.svg?style=flat-square)](https://github.com/henrylee2cn/pholcus/issues?q=is%3Aissue+is%3Aclosed) [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](http://godoc.org/github.com/henrylee2cn/pholcus) [![view Go大数据](https://img.shields.io/badge/官方QQ群-Go大数据(42731170)-27a5ea.svg?style=flat-square)](http://jq.qq.com/?_wv=1027&k=XnGGnc)
+# Pholcus [![GitHub release](https://img.shields.io/github/release/henrylee2cn/pholcus.svg?style=flat-square)](https://github.com/henrylee2cn/pholcus/releases) [![report card](https://goreportcard.com/badge/github.com/henrylee2cn/pholcus?style=flat-square)](http://goreportcard.com/report/henrylee2cn/pholcus) [![github issues](https://img.shields.io/github/issues/henrylee2cn/pholcus.svg?style=flat-square)](https://github.com/henrylee2cn/pholcus/issues?q=is%3Aopen+is%3Aissue) [![github closed issues](https://img.shields.io/github/issues-closed-raw/henrylee2cn/pholcus.svg?style=flat-square)](https://github.com/henrylee2cn/pholcus/issues?q=is%3Aissue+is%3Aclosed) [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](http://godoc.org/github.com/henrylee2cn/pholcus) [![view Go大数据](<https://img.shields.io/badge/官方QQ群-Go大数据(42731170)-27a5ea.svg?style=flat-square>)](http://jq.qq.com/?_wv=1027&k=XnGGnc)
 
-Pholcus（幽灵蛛）是一款纯Go语言编写的支持分布式的高并发、重量级爬虫软件，定位于互联网数据采集，为具备一定Go或JS编程基础的人提供一个只需关注规则定制的功能强大的爬虫工具。
+Pholcus is a purely high-concurrency, heavyweight crawler software written in pure Go language. It is targeted at Internet data collection and provides a function that only requires attention to rule customization for people with a certain Go or JS programming foundation. A powerful reptile tool.
 
-它支持单机、服务端、客户端三种运行模式，拥有Web、GUI、命令行三种操作界面；规则简单灵活、批量任务并发、输出方式丰富（mysql/mongodb/kafka/csv/excel等）、有大量Demo共享；另外它还支持横纵向两种抓取模式，支持模拟登录和任务暂停、取消等一系列高级功能。
+It supports three operating modes: stand-alone, server, and client. It has three operation interfaces: Web, GUI, and command line. The rules are simple and flexible, batch tasks are concurrent, and output methods are rich (mysql/mongodb/kafka/csv/excel, etc.). There is a large amount of Demo sharing; in addition, it supports two horizontal and vertical capture modes, supporting a series of advanced functions such as simulated login and task pause and cancel.
 
 ![image](https://github.com/henrylee2cn/pholcus/raw/master/doc/icon.png)
 
-
-# 爬虫原理
+# Reptile principle
 
 ![image](https://github.com/henrylee2cn/pholcus/raw/master/doc/module.png)
 
@@ -19,113 +18,119 @@ Pholcus（幽灵蛛）是一款纯Go语言编写的支持分布式的高并发�
 
 ![image](https://github.com/henrylee2cn/pholcus/raw/master/doc/distribute.png)
 
+#Frame Features
+ 1. Provide heavyweight reptile tools that only need to pay attention to custom rules and functions for users with a certain Go or JS programming foundation;
 
-# 框架特点
- 1. 为具备一定Go或JS编程基础的用户提供只需关注规则定制、功能完备的重量级爬虫工具；
+2. Support three operating modes: stand-alone, server, and client;
 
- 2. 支持单机、服务端、客户端三种运行模式；
- 
- 3. GUI(Windows)、Web、Cmd 三种操作界面，可通过参数控制打开方式；
- 
- 4. 支持状态控制，如暂停、恢复、停止等；
- 
- 5. 可控制采集量；
+3. GUI (Windows), Web, Cmd three operation interfaces, which can be controlled by parameters;
 
- 6. 可控制并发协程数；
+4. Support state control, such as pause, resume, stop, etc.
 
- 7. 支持多采集任务并发执行；
+5. Control the amount of collection;
 
- 8. 支持代理IP列表，可控制更换频率；
+6. Control the number of concurrent associations;
 
- 9. 支持采集过程随机停歇，模拟人工行为；
+7. Support multiple acquisition tasks concurrently;
 
- 10. 根据规则需求，提供自定义配置输入接口
+8. Support proxy IP list, which can control the frequency of replacement;
 
- 11. 有mysql、mongodb、kafka、csv、excel、原文件下载共五种输出方式；
+9. Support the collection process to stop randomly and simulate artificial behavior;
 
- 12. 支持分批输出，且每批数量可控；
+10. Provide custom configuration input interface according to rule requirements
 
- 13. 支持静态Go和动态JS两种采集规则，支持横纵向两种抓取模式，且有大量Demo；
+11. There are five output modes: mysql, mongodb, kafka, csv, excel, and original file download.
 
- 14. 持久化成功记录，便于自动去重；
+12. Support batch output, and the quantity of each batch is controllable;
 
- 15. 序列化失败请求，支持反序列化自动重载处理；
+13. Supports both static Go and dynamic JS collection rules, supports both horizontal and vertical capture modes, and has a large number of demos;
 
- 16. 采用surfer高并发下载器，支持 GET/POST/HEAD 方法及 http/https 协议，同时支持固定UserAgent自动保存cookie与随机大量UserAgent禁用cookie两种模式，高度模拟浏览器行为，可实现模拟登录等功能；
+14. Persistence of successful records for automatic de-duplication;
 
- 17. 服务器/客户端模式采用Teleport高并发SocketAPI框架，全双工长连接通信，内部数据传输格式为JSON。
- 
+15. Serialization failure request, support deserialization automatic reload processing;
+
+16. Surfer high concurrent downloader, support GET / POST / HEAD method and http / https protocol, support fixed UserAgent automatic save cookie and random large number of UserAgent disable cookie two modes, highly simulate browser behavior, can achieve analog login, etc. Features;
+
+17. The server/client mode adopts the Teleport high concurrent SocketAPI framework, which is connected by full-duplex long-length communication, and the internal data transmission format is JSON.
 
 &nbsp;
 
-# Go版本要求
+# Go version requirements
 
 ≥Go1.6
 
 &nbsp;
 
-# 下载安装
+# Download and install
 
 ```
 go get -u -v github.com/henrylee2cn/pholcus
 ```
 
-备注：Pholcus公开维护的spider规则库地址 <https://github.com/henrylee2cn/pholcus_lib>
+Note: Pholcus publicly maintained spider rule base address <https://github.com/henrylee2cn/pholcus_lib>
 
 &nbsp;
 
-# 创建项目
+# Create project
 
 ```
 package main
 
 import (
     "github.com/henrylee2cn/pholcus/exec"
-    _ "github.com/henrylee2cn/pholcus_lib" // 此为公开维护的spider规则库
-    // _ "pholcus_lib_pte" // 同样你也可以自由添加自己的规则库
+    _ "github.com/henrylee2cn/pholcus_lib" // This is a publicly maintained spider rule base
+     // _ "pholcus_lib_pte" // You can also freely add your own rule base
 )
 
 func main() {
-    // 设置运行时默认操作界面，并开始运行
-    // 运行软件前，可设置 -a_ui 参数为"web"、"gui"或"cmd"，指定本次运行的操作界面
-    // 其中"gui"仅支持Windows系统
+     // Set the runtime default action interface and start running
+     // Before running the software, you can set the -a_ui parameter to "web", "gui" or "cmd" to specify the operation interface for this run.
+     // where "gui" only supports Windows systems
     exec.DefaultRun("web")
 }
 ```
+
 &nbsp;
 
-# 编译运行
-正常编译方法
+# Compile and run
+
+Normal compilation method
+
 ```
 cd {{replace your gopath}}/src/github.com/henrylee2cn/pholcus
-go install 或者 go build
+go install or go build
 ```
-Windows下隐藏cmd窗口的编译方法
+
+Hidden cmd window compilation method under Windows
+
 ```
 cd {{replace your gopath}}/src/github.com/henrylee2cn/pholcus
-go install -ldflags="-H windowsgui" 或者 go build -ldflags="-H windowsgui"
+go install -ldflags="-H windowsgui" or go build -ldflags="-H windowsgui"
 ```
-查看可选参数: 
+
+View optional parameters:
+
 ```
 pholcus -h
 ```
+
 ![image](https://github.com/henrylee2cn/pholcus/raw/master/doc/help.jpg)
 
 &nbsp;
 
-> *<font size="2">Web版操作界面截图如下：*
+> _<font size="2">The screenshot of the web version of the operation interface is as follows:_
 
 ![image](https://github.com/henrylee2cn/pholcus/raw/master/doc/webshow_1.png)
 
 &nbsp;
 
-> *<font size="2">GUI版操作界面之模式选择界面截图如下*
+> _<font size="2">GUI mode operation interface mode selection interface screenshot is as follows_
 
 ![image](https://github.com/henrylee2cn/pholcus/raw/master/doc/guishow_0.jpg)
 
 &nbsp;
 
-> *<font size="2">Cmd版运行参数设置示例如下*
+> _<font size="2">Cmd version of the operating parameter settings example is as follows_
 
 ```
 $ pholcus -_ui=cmd -a_mode=0 -c_spider=3,8 -a_outtype=csv -a_thread=20 -a_dockercap=5000 -a_pause=300
@@ -134,47 +139,48 @@ $ pholcus -_ui=cmd -a_mode=0 -c_spider=3,8 -a_outtype=csv -a_thread=20 -a_docker
 
 &nbsp;
 
-*注意：*Mac下如使用代理IP功能，请务必获取root用户权限，否则无法通过`ping`获取可以代理！
+\*Note: If you use the proxy IP function under Mac, be sure to obtain the root user right, otherwise you can't get it through `ping`!
 
 &nbsp;
 
-# 运行时目录文件
+# Runtime catalog file
 
 ```
-├─pholcus 软件
+├─pholcus software
 │
-├─pholcus_pkg 运行时文件目录
-│  ├─config.ini 配置文件
+├─pholcus_pkg runtime file directory
+│  ├─config.ini configuration file
 │  │
-│  ├─proxy.lib 代理IP列表文件
+│  ├─proxy.lib proxy IP list file
 │  │
-│  ├─spiders 动态规则目录
-│  │  └─xxx.pholcus.html 动态规则文件
+│  ├─spiders dynamic rule directory
+│  │  └─xxx.pholcus.html Dynamic Rules File
 │  │
-│  ├─phantomjs 程序文件
+│  ├─phantomjs program file
 │  │
-│  ├─text_out 文本数据文件输出目录
+│  ├─text_out text data file output directory
 │  │
-│  ├─file_out 文件结果输出目录
+│  ├─file_out result output directory
 │  │
-│  ├─logs 日志目录
+│  ├─logs directory
 │  │
-│  ├─history 历史记录目录
+│  ├─history history directory
 │  │
-└─└─cache 临时缓存目录
+└─└─cache temporary cache directory
 ```
 
 &nbsp;
 
-# 动态规则示例
+# Dynamic rule example
 
-特点：动态加载规则，无需重新编译软件，书写简单，添加自由，适用于轻量级的采集项目。
+Features: Dynamic loading rules, no need to recompile the software, simple writing, free to add, suitable for lightweight collection projects.
 <br/>
 xxx.pholcus.html
+
 ```
 <Spider>
-    <Name>HTML动态规则示例</Name>
-    <Description>HTML动态规则示例 [Auto Page] [http://xxx.xxx.xxx]</Description>
+    <Name>HTML dynamic rule example</Name>
+    <Description>HTML dynamic rule example [Auto Page] [http://xxx.xxx.xxx]</Description>
     <Pausetime>300</Pausetime>
     <EnableLimit>false</EnableLimit>
     <EnableCookie>true</EnableCookie>
@@ -191,11 +197,11 @@ xxx.pholcus.html
         console.log("Root");
         ctx.JsAddQueue({
             Url: "http://xxx.xxx.xxx",
-            Rule: "登录页"
+            Rule: "LoginPage"
         });
         </Script>
     </Root>
-    <Rule name="登录页">
+    <Rule name="LoginPage">
         <AidFunc>
             <Script param="ctx,aid">
             </Script>
@@ -205,23 +211,23 @@ xxx.pholcus.html
             console.log(ctx.GetRuleName());
             ctx.JsAddQueue({
                 Url: "http://xxx.xxx.xxx",
-                Rule: "登录后",
+                Rule: "AfterLogin",
                 Method: "POST",
                 PostData: "username=44444444@qq.com&amp;password=44444444&amp;login_btn=login_btn&amp;submit=login_btn"
             });
             </Script>
         </ParseFunc>
     </Rule>
-    <Rule name="登录后">
+    <Rule name="AfterLogin">
         <ParseFunc>
             <Script param="ctx">
             console.log(ctx.GetRuleName());
             ctx.Output({
-                "全部": ctx.GetText()
+                "All": ctx.GetText()
             });
             ctx.JsAddQueue({
                 Url: "http://accounts.xxx.xxx/member",
-                Rule: "个人中心",
+                Rule: "PersonalCenter",
                 Header: {
                     "Referer": [ctx.GetUrl()]
                 }
@@ -229,12 +235,12 @@ xxx.pholcus.html
             </Script>
         </ParseFunc>
     </Rule>
-    <Rule name="个人中心">
+    <Rule name="PersonalCenter">
         <ParseFunc>
             <Script param="ctx">
-            console.log("个人中心: " + ctx.GetRuleName());
+            console.log("PersonalCenter: " + ctx.GetRuleName());
             ctx.Output({
-                "全部": ctx.GetText()
+                "All": ctx.GetText()
             });
             </Script>
         </ParseFunc>
@@ -242,17 +248,17 @@ xxx.pholcus.html
 </Spider>
 ```
 
-# 静态规则示例
+# Static rule example
 
-特点：随软件一同编译，定制性更强，效率更高，适用于重量级的采集项目。
+Features: Compiled with the software, more customized, more efficient, suitable for heavyweight acquisition projects.
 <br/>
 xxx.go
 
 ```
 func init() {
     Spider{
-        Name:        "静态规则示例",
-        Description: "静态规则示例 [Auto Page] [http://xxx.xxx.xxx]",
+        Name:        "Static rule example",
+        Description: "Static rule example [Auto Page] [http://xxx.xxx.xxx]",
         // Pausetime: 300,
         // Limit:   LIMIT,
         // Keyin:   KEYIN,
@@ -262,35 +268,35 @@ func init() {
         SubNamespace:    nil,
         RuleTree: &RuleTree{
             Root: func(ctx *Context) {
-                ctx.AddQueue(&request.Request{Url: "http://xxx.xxx.xxx", Rule: "登录页"})
+                ctx.AddQueue(&request.Request{Url: "http://xxx.xxx.xxx", Rule: "LoginPage"})
             },
             Trunk: map[string]*Rule{
-                "登录页": {
+                "LoginPage": {
                     ParseFunc: func(ctx *Context) {
                         ctx.AddQueue(&request.Request{
                             Url:      "http://xxx.xxx.xxx",
-                            Rule:     "登录后",
+                            Rule:     "AfterLogin",
                             Method:   "POST",
                             PostData: "username=123456@qq.com&password=123456&login_btn=login_btn&submit=login_btn",
                         })
                     },
                 },
-                "登录后": {
+                "AfterLogin": {
                     ParseFunc: func(ctx *Context) {
                         ctx.Output(map[string]interface{}{
-                            "全部": ctx.GetText(),
+                            "All": ctx.GetText(),
                         })
                         ctx.AddQueue(&request.Request{
                             Url:    "http://accounts.xxx.xxx/member",
-                            Rule:   "个人中心",
+                            Rule:   "PersonalCenter",
                             Header: http.Header{"Referer": []string{ctx.GetUrl()}},
                         })
                     },
                 },
-                "个人中心": {
+                "PersonalCenter": {
                     ParseFunc: func(ctx *Context) {
                         ctx.Output(map[string]interface{}{
-                            "全部": ctx.GetText(),
+                            "All": ctx.GetText(),
                         })
                     },
                 },
@@ -302,9 +308,9 @@ func init() {
 
 &nbsp;
 
-# 代理IP
+# Proxy IP
 
-- 代理IP写在`/pholcus_pkg/proxy.lib`文件，格式如下，一行一个IP：
+- Proxy IP written in `/pholcus_pkg/proxy.lib` The file is in the following format, one IP per line:
 
 ```
 http://183.141.168.95:3128
@@ -316,39 +322,43 @@ http://115.228.57.254:3128
 http://49.84.106.160:9000
 ```
 
-- 在操作界面选择“代理IP更换频率”或命令行设置`-a_proxyminute`参数，进行使用
+- In the operation interface, select "Proxy IP replacement frequency" or set the `-a_proxyminute` parameter on the command line to use.
 
-- *注意：*Mac下如使用代理IP功能，请务必获取root用户权限，否则无法通过ping获取可以代理！
+- \*Note: If you use the proxy IP function under Mac, be sure to obtain the root user permission. Otherwise, you can not get the proxy through ping!
 
 &nbsp;
 
 # FAQ
 
-请求队列中，重复的URL是否会自动去重？
+In the request queue, will duplicate URLs be automatically de-duplicated?
+
 ```
-url默认情况下是去重的，但是可以通过设置Request.Reloadable=true忽略重复。
+The url is de-duplicated by default, but it can be ignored by setting Request.Reloadable=true.
 ```
 
-URL指向的页面内容若有更新，框架是否有判断的机制？
+If the content of the page pointed to by the URL is updated, does the framework have a mechanism for judging?
+
 ```
-url页面内容的更新，框架无法直接支持判断，但是用户可以自己在规则中自定义支持。
+The content of the url page is updated. The framework cannot directly support the judgment, but the user can customize the support in the rules.
 ```
 
-请求成功是依据web头的状态码判断？
+The success of the request is based on the status code of the web header.
+
 ```
-不是判断状态，而是判断服务器有无响应流返回。即，404页面同样属于成功。
+Instead of judging the state, it is determined whether the server has a response stream or not. That is, the 404 page is also a success.
 ```
 
-请求失败后的重新请求机制？
+The re-request mechanism after the request fails?
+
 ```
-每个url尝试下载指定次数之后，若依然失败，则将该请求追加到一个类似defer性质的特殊队列中。  
-在当前任务正常结束后，将自动添加至下载队列，再次进行下载。如果依然有没下载成功的，则保存至失败历史记录。  
-当下次执行该条爬虫规则时，可通过选择继承历史失败记录，把这些失败请求自动加入defer性质的特殊队列……（后面是重复步骤）
+After each url attempts to download a specified number of times, if it still fails, the request is appended to a special queue like defer.
+After the current task ends normally, it will be automatically added to the download queue and downloaded again. If there are still no downloads successfully, save to the failure history.
+The next time you execute the crawler rule, you can automatically add these failed requests to the special queue of the defer property by selecting the inheritance history failure record... (following the steps)
 ```
 
 &nbsp;
 
-# 第三方依赖包
+# Third-party dependencies
 
 ```
 "github.com/henrylee2cn/teleport"
@@ -359,10 +369,11 @@ url页面内容的更新，框架无法直接支持判断，但是用户可以�
 "github.com/go-sql-driver/mysql"
 "github.com/lxn/walk"
 "github.com/elazarl/go-bindata-assetfs"
-"github.com/henrylee2cn/pholcus_lib" // 此为公开维护的spider规则库
+"github.com/henrylee2cn/pholcus_lib" // This is a publicly maintained spider rule base
 ```
-> *<font size="2">（在此感谢以上开源项目的支持！）</font>*
 
-# 开源协议
+> _<font size="2">(Thanks for the support of the above open source project!)</font>_
 
-Pholcus（幽灵蛛）项目采用商业应用友好的[Apache License v2](https://github.com/henrylee2cn/pholcus/raw/master/LICENSE).发布
+# Open source agreement
+
+Pholcus(Ghost Spider) project is commercially friendly[Apache License v2](https://github.com/henrylee2cn/pholcus/raw/master/LICENSE).release

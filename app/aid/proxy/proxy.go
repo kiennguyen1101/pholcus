@@ -86,16 +86,16 @@ func (self *Proxy) Update() *Proxy {
 		self.all[proxy] = false
 	}
 
-	log.Printf(" *     读取代理IP: %v 条\n", len(self.all))
+	log.Printf("* Read proxy IP: %v\n", len(self.all))
 
 	self.findOnline()
 
 	return self
 }
 
-// 筛选在线的代理IP
+// Filter online proxy IP
 func (self *Proxy) findOnline() *Proxy {
-	log.Printf(" *     正在筛选在线的代理IP……")
+	log.Printf("* Filtering online proxy IP...")
 	self.online = 0
 	for proxy := range self.all {
 		self.threadPool <- true
@@ -105,6 +105,7 @@ func (self *Proxy) findOnline() *Proxy {
 			self.all[proxy] = alive
 			self.Unlock()
 			if alive {
+				log.Printf("* Proxy IP %s is online", self.allIps[proxy])
 				atomic.AddInt32(&self.online, 1)
 			}
 			<-self.threadPool
@@ -114,12 +115,12 @@ func (self *Proxy) findOnline() *Proxy {
 		time.Sleep(0.2e9)
 	}
 	self.online = atomic.LoadInt32(&self.online)
-	log.Printf(" *     在线代理IP筛选完成，共计：%v 个\n", self.online)
+	log.Printf("* Online proxy IP filtering completed, total: %v\n", self.online)
 
 	return self
 }
 
-// 更新继时器
+// Update timer
 func (self *Proxy) UpdateTicker(tickMinute int64) {
 	self.tickMinute = tickMinute
 	self.ticker = time.NewTicker(time.Duration(self.tickMinute) * time.Minute)
@@ -136,7 +137,7 @@ func (self *Proxy) GetOne(u string) (curProxy string) {
 	}
 	u2, _ := url.Parse(u)
 	if u2.Host == "" {
-		logs.Log.Informational(" *     [%v]设置代理IP失败，目标url不正确\n", u)
+		logs.Log.Informational("* [%v] Failed to set proxy IP, target url is incorrect\n", u)
 		return
 	}
 	var key = u2.Host
@@ -174,7 +175,7 @@ func (self *Proxy) GetOne(u string) (curProxy string) {
 		}
 	}
 	if !ok {
-		logs.Log.Informational(" *     [%v]设置代理IP失败，没有可用的代理IP\n", key)
+		logs.Log.Informational("* [%v] Failed to set proxy IP, no proxy IP available\n", key)
 		return
 	}
 	curProxy = proxyForHost.proxys[proxyForHost.curIndex]
@@ -190,7 +191,7 @@ func (self *Proxy) GetOne(u string) (curProxy string) {
 
 // 测试并排序
 func (self *Proxy) testAndSort(key string, testHost string) (*ProxyForHost, bool) {
-	logs.Log.Informational(" *     [%v]正在测试与排序代理IP……", key)
+	logs.Log.Informational("* [%v] is testing and sorting proxy IP...", key)
 	proxyForHost := self.usable[key]
 	proxyForHost.proxys = []string{}
 	proxyForHost.timedelay = []time.Duration{}
@@ -216,10 +217,10 @@ func (self *Proxy) testAndSort(key string, testHost string) (*ProxyForHost, bool
 	}
 	if proxyForHost.Len() > 0 {
 		sort.Sort(proxyForHost)
-		logs.Log.Informational(" *     [%v]测试与排序代理IP完成，可用：%v 个\n", key, proxyForHost.Len())
+		logs.Log.Informational("* [%v] test and sorting agent IP completion, available: %v\n", key, proxyForHost.Len())
 		return proxyForHost, true
 	}
-	logs.Log.Informational(" *     [%v]测试与排序代理IP完成，没有可用的代理IP\n", key)
+	logs.Log.Informational("* [%v] test and sort proxy IP completion, no proxy IP available\n", key)
 	return proxyForHost, false
 }
 

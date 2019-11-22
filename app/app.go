@@ -1,5 +1,5 @@
 // app interface for graphical user interface.
-// 基本业务执行顺序依次为：New()-->[SetLog(io.Writer)-->]Init()-->SpiderPrepare()-->Run()
+// The basic business execution order is: New()-->[SetLog(io.Writer)-->]Init()-->SpiderPrepare()-->Run()
 package app
 
 import (
@@ -24,38 +24,38 @@ import (
 
 type (
 	App interface {
-		SetLog(io.Writer) App                                         // 设置全局log实时显示终端
-		LogGoOn() App                                                 // 继续log打印
-		LogRest() App                                                 // 暂停log打印
-		Init(mode int, port int, master string, w ...io.Writer) App   // 使用App前必须进行先Init初始化，SetLog()除外
-		ReInit(mode int, port int, master string, w ...io.Writer) App // 切换运行模式并重设log打印目标
-		GetAppConf(k ...string) interface{}                           // 获取全局参数
-		SetAppConf(k string, v interface{}) App                       // 设置全局参数（client模式下不调用该方法）
-		SpiderPrepare(original []*spider.Spider) App                  // 须在设置全局运行参数后Run()前调用（client模式下不调用该方法）
-		Run()                                                         // 阻塞式运行直至任务完成（须在所有应当配置项配置完成后调用）
-		Stop()                                                        // Offline 模式下中途终止任务（对外为阻塞式运行直至当前任务终止）
-		IsRunning() bool                                              // 检查任务是否正在运行
-		IsPause() bool                                                // 检查任务是否处于暂停状态
-		IsStopped() bool                                              // 检查任务是否已经终止
-		PauseRecover()                                                // Offline 模式下暂停\恢复任务
-		Status() int                                                  // 返回当前状态
-		GetSpiderLib() []*spider.Spider                               // 获取全部蜘蛛种类
-		GetSpiderByName(string) *spider.Spider                        // 通过名字获取某蜘蛛
-		GetSpiderQueue() crawler.SpiderQueue                          // 获取蜘蛛队列接口实例
-		GetOutputLib() []string                                       // 获取全部输出方式
-		GetTaskJar() *distribute.TaskJar                              // 返回任务库
-		distribute.Distributer                                        // 实现分布式接口
+		SetLog(io.Writer) App                                         // Set global log real-time display terminal
+		LogGoOn() App                                                 // Continue log printing
+		LogRest() App                                                 // Pause log printing
+		Init(mode int, port int, master string, w ...io.Writer) App   // Init initialization must be done before using the App, except for SetLog()
+		ReInit(mode int, port int, master string, w ...io.Writer) App // Switch the run mode and reset the log print target
+		GetAppConf(k ...string) interface{}                           // Get global parameters
+		SetAppConf(k string, v interface{}) App                       // Set global parameters (this method is not called in client mode)
+		SpiderPrepare(original []*spider.Spider) App                  // must be called before Run() after setting global run parameters (this method is not called in client mode)
+		Run()                                                         // Blocking until the task is completed (must be called after all configuration items have been configured)
+		Stop()                                                        // Terminates the task midway in the offline mode (external blocking until the current task is terminated)
+		IsRunning() bool                                              // check if the task is running
+		IsPause() bool                                                // check if the task is in a pause state
+		IsStopped() bool                                              // check if the task has been terminated
+		PauseRecover()                                                // Pause\Resume Task in Offline Mode
+		Status() int                                                  // returns the current state
+		GetSpiderLib() []*spider.Spider                               // Get all spider species
+		GetSpiderByName(string) *spider.Spider                        // Get a spider by name
+		GetSpiderQueue() crawler.SpiderQueue                          // Get the spider queue interface instance
+		GetOutputLib() []string                                       // Get all output methods
+		GetTaskJar() *distribute.TaskJar                              // Return to the task library
+		distribute.Distributer                                        // implement distributed interface
 	}
 	Logic struct {
-		*cache.AppConf                      // 全局配置
-		*spider.SpiderSpecies               // 全部蜘蛛种类
-		crawler.SpiderQueue                 // 当前任务的蜘蛛队列
-		*distribute.TaskJar                 // 服务器与客户端间传递任务的存储库
-		crawler.CrawlerPool                 // 爬行回收池
-		teleport.Teleport                   // socket长连接双工通信接口，json数据传输
-		sum                   [2]uint64     // 执行计数
-		takeTime              time.Duration // 执行计时
-		status                int           // 运行状态
+		*cache.AppConf                      // global configuration
+		*spider.SpiderSpecies               // all spider types
+		crawler.SpiderQueue                 // spider queue for the current task
+		*distribute.TaskJar                 // The repository for passing tasks between the server and the client
+		crawler.CrawlerPool                 // crawling recycling pool
+		teleport.Teleport                   // socket long connection duplex communication interface, json data transmission
+		sum                   [2]uint64     // execution count
+		takeTime              time.Duration // perform timing
+		status                int           // running status
 		finish                chan bool
 		finishOnce            sync.Once
 		canSocketLog          bool
@@ -64,26 +64,26 @@ type (
 )
 
 /*
- * 任务运行时公共配置
+ * Task runtime public configuration
 type AppConf struct {
-	Mode           int    // 节点角色
-	Port           int    // 主节点端口
-	Master         string // 服务器(主节点)地址，不含端口
-	ThreadNum      int    // 全局最大并发量
-	Pausetime      int64  // 暂停时长参考/ms(随机: Pausetime/2 ~ Pausetime*2)
-	OutType        string // 输出方式
-	DockerCap      int    // 分段转储容器容量
-	DockerQueueCap int    // 分段输出池容量，不小于2
-	SuccessInherit bool   // 继承历史成功记录
-	FailureInherit bool   // 继承历史失败记录
-	Limit          int64  // 采集上限，0为不限，若在规则中设置初始值为LIMIT则为自定义限制，否则默认限制请求数
-	ProxyMinute    int64  // 代理IP更换的间隔分钟数
-	// 选填项
-	Keyins string // 自定义输入，后期切分为多个任务的Keyin自定义配置
+	Mode           int    // Node role
+	Port           int    // Master Node Port
+	Master         string // Server (primary) address, no port
+	ThreadNum      int    // Global maximum concurrency
+	Pausetime      int64  // Pause duration/ms(random: Pausetime/2 ~ Pausetime*2)
+	OutType        string // Output Method
+	DockerCap      int    // Segmented dump container capacity
+	DockerQueueCap int    // Segmented output pool capacity, not less than 2
+	SuccessInherit bool   // Inheritance history success record
+	FailureInherit bool   // Inheritance history failure record
+	Limit          int64  // The upper limit is collected, 0 is not limited. If the initial value is set to LIMIT in the rule, it is a custom limit, otherwise the default limit request number
+	ProxyMinute    int64  // Interval minutes for proxy IP replacement
+	// Optional
+	Keyins string // Custom input, later split into multiple tasks Keyin custom configuration
 }
 */
 
-// 全局唯一的核心接口实例
+// LogicApp: Globally unique core interface instance
 var LogicApp = New()
 
 func New() App {
@@ -174,13 +174,13 @@ func (self *Logic) Init(mode int, port int, master string, w ...io.Writer) App {
 	case status.SERVER:
 		logs.Log.EnableStealOne(false)
 		if self.checkPort() {
-			logs.Log.Informational("                                                                                               ！！当前运行模式为：[ 服务器 ] 模式！！")
+			logs.Log.Informational("                                                                                               ！！The current operating mode is: [Server] mode！！")
 			self.Teleport.SetAPI(distribute.MasterApi(self)).Server(":" + strconv.Itoa(self.AppConf.Port))
 		}
 
 	case status.CLIENT:
 		if self.checkAll() {
-			logs.Log.Informational("                                                                                               ！！当前运行模式为：[ 客户端 ] 模式！！")
+			logs.Log.Informational("                                                                                               ！！	The current operating mode is: [Client] mode！！")
 			self.Teleport.SetAPI(distribute.SlaveApi(self)).Client(self.AppConf.Master, ":"+strconv.Itoa(self.AppConf.Port))
 			// 开启节点间log打印
 			self.canSocketLog = true
@@ -189,10 +189,10 @@ func (self *Logic) Init(mode int, port int, master string, w ...io.Writer) App {
 		}
 	case status.OFFLINE:
 		logs.Log.EnableStealOne(false)
-		logs.Log.Informational("                                                                                               ！！当前运行模式为：[ 单机 ] 模式！！")
+		logs.Log.Informational("                                                                                               ！！The current operating mode is: [single] mode！！")
 		return self
 	default:
-		logs.Log.Warning(" *    ——请指定正确的运行模式！——")
+		logs.Log.Warning(" *   —— Please specify the correct mode of operation! ——")
 		return self
 	}
 	return self
@@ -277,10 +277,10 @@ func (self *Logic) GetSpiderQueue() crawler.SpiderQueue {
 
 // 运行任务
 func (self *Logic) Run() {
-	// 确保开启报告
+	// Make sure to open the report
 	self.LogGoOn()
 	if self.AppConf.Mode != status.CLIENT && self.SpiderQueue.Len() == 0 {
-		logs.Log.Warning(" *     —— 亲，任务列表不能为空哦~")
+		logs.Log.Warning(" *     —— Dear, the task list can't be empty~")
 		self.LogRest()
 		return
 	}
@@ -392,7 +392,7 @@ func (self *Logic) server() {
 	logs.Log.Informational(" * ")
 	logs.Log.Informational(` *********************************************************************************************************************************** `)
 	logs.Log.Informational(" * ")
-	logs.Log.Informational(" *                               —— 本次成功添加 %v 条任务，共包含 %v 条采集规则 ——", tasksNum, spidersNum)
+	logs.Log.Informational(" *                               —— This successfully added %v tasks, including %v collection rules ——", tasksNum, spidersNum)
 	logs.Log.Informational(" * ")
 	logs.Log.Informational(` *********************************************************************************************************************************** `)
 }
@@ -523,11 +523,11 @@ func (self *Logic) exec() {
 	// 设置爬虫队列
 	crawlerCap := self.CrawlerPool.Reset(count)
 
-	logs.Log.Informational(" *     执行任务总数(任务数[*自定义配置数])为 %v 个\n", count)
-	logs.Log.Informational(" *     采集引擎池容量为 %v\n", crawlerCap)
-	logs.Log.Informational(" *     并发协程最多 %v 个\n", self.AppConf.ThreadNum)
-	logs.Log.Informational(" *     默认随机停顿 %v~%v 毫秒\n", self.AppConf.Pausetime/2, self.AppConf.Pausetime*2)
-	logs.Log.App(" *                                                                                                 —— 开始抓取，请耐心等候 ——")
+	logs.Log.Informational(" *     The total number of tasks performed (number of tasks [*custom configuration number]) is %v one\n", count)
+	logs.Log.Informational(" *     The collection engine pool capacity is %v\n", crawlerCap)
+	logs.Log.Informational(" *     Concurrent co-routes %v 个\n", self.AppConf.ThreadNum)
+	logs.Log.Informational(" *     Default random pause %v~%v milliseconds\n", self.AppConf.Pausetime/2, self.AppConf.Pausetime*2)
+	logs.Log.App(" *                                                                                                 - Start crawling, please be patient -")
 	logs.Log.Informational(` *********************************************************************************************************************************** `)
 
 	// 开始计时
@@ -572,19 +572,19 @@ func (self *Logic) goRun(count int) {
 	for ii := 0; ii < i; ii++ {
 		s := <-cache.ReportChan
 		if (s.DataNum == 0) && (s.FileNum == 0) {
-			logs.Log.App(" *     [任务小计：%s | KEYIN：%s]   无采集结果，用时 %v！\n", s.SpiderName, s.Keyin, s.Time)
+			logs.Log.App(" *     [Task subtotal: %s | KEYIN: %s] No collection results, time spent %v！\n", s.SpiderName, s.Keyin, s.Time)
 			continue
 		}
 		logs.Log.Informational(" * ")
 		switch {
 		case s.DataNum > 0 && s.FileNum == 0:
-			logs.Log.App(" *     [任务小计：%s | KEYIN：%s]   共采集数据 %v 条，用时 %v！\n",
+			logs.Log.App(" *     [Task subtotal: %s | KEYIN: %s] Collect data %v, use time %v！\n",
 				s.SpiderName, s.Keyin, s.DataNum, s.Time)
 		case s.DataNum == 0 && s.FileNum > 0:
-			logs.Log.App(" *     [任务小计：%s | KEYIN：%s]   共下载文件 %v 个，用时 %v！\n",
+			logs.Log.App(" *     [Task subtotal: %s | KEYIN: %s] Total download files %v, time %v！\n",
 				s.SpiderName, s.Keyin, s.FileNum, s.Time)
 		default:
-			logs.Log.App(" *     [任务小计：%s | KEYIN：%s]   共采集数据 %v 条 + 下载文件 %v 个，用时 %v！\n",
+			logs.Log.App(" *     [Task subtotal: %s | KEYIN: %s] Total data collected %v + Download file %v, time spent %v！\n",
 				s.SpiderName, s.Keyin, s.DataNum, s.FileNum, s.Time)
 		}
 
@@ -596,9 +596,9 @@ func (self *Logic) goRun(count int) {
 	self.takeTime = time.Since(cache.StartTime)
 	var prefix = func() string {
 		if self.Status() == status.STOP {
-			return "任务中途取消："
+			return "Cancel midway through the mission: "
 		}
-		return "本次"
+		return "this time"
 	}()
 	// 打印总结报告
 	logs.Log.Informational(" * ")
@@ -606,16 +606,16 @@ func (self *Logic) goRun(count int) {
 	logs.Log.Informational(" * ")
 	switch {
 	case self.sum[0] > 0 && self.sum[1] == 0:
-		logs.Log.App(" *                            —— %s合计采集【数据 %v 条】， 实爬【成功 %v URL + 失败 %v URL = 合计 %v URL】，耗时【%v】 ——",
+		logs.Log.App(" *                            —— %sTotal collection【Data %v】， Real climb【successful %v URL + failure %v URL = total %v URL】，time consuming【%v】 ——",
 			prefix, self.sum[0], cache.GetPageCount(1), cache.GetPageCount(-1), cache.GetPageCount(0), self.takeTime)
 	case self.sum[0] == 0 && self.sum[1] > 0:
-		logs.Log.App(" *                            —— %s合计采集【文件 %v 个】， 实爬【成功 %v URL + 失败 %v URL = 合计 %v URL】，耗时【%v】 ——",
+		logs.Log.App(" *                            —— %sTotal collection【file %v 个】， Real climb【successful %v URL + failure %v URL = total %v URL】，time consuming【%v】 ——",
 			prefix, self.sum[1], cache.GetPageCount(1), cache.GetPageCount(-1), cache.GetPageCount(0), self.takeTime)
 	case self.sum[0] == 0 && self.sum[1] == 0:
-		logs.Log.App(" *                            —— %s无采集结果，实爬【成功 %v URL + 失败 %v URL = 合计 %v URL】，耗时【%v】 ——",
+		logs.Log.App(" *                            —— %sNo acquisition result，Real climb【successful %v URL + failure %v URL = total %v URL】，time consuming【%v】 ——",
 			prefix, cache.GetPageCount(1), cache.GetPageCount(-1), cache.GetPageCount(0), self.takeTime)
 	default:
-		logs.Log.App(" *                            —— %s合计采集【数据 %v 条 + 文件 %v 个】，实爬【成功 %v URL + 失败 %v URL = 合计 %v URL】，耗时【%v】 ——",
+		logs.Log.App(" *                            —— %sTotal collection【Data %v + file %v 个】，Real climb【successful %v URL + failure %v URL = total %v URL】，time consuming【%v】 ——",
 			prefix, self.sum[0], self.sum[1], cache.GetPageCount(1), cache.GetPageCount(-1), cache.GetPageCount(0), self.takeTime)
 	}
 	logs.Log.Informational(" * ")
@@ -645,7 +645,7 @@ func (self *Logic) socketLog() {
 
 func (self *Logic) checkPort() bool {
 	if self.AppConf.Port == 0 {
-		logs.Log.Warning(" *     —— 亲，分布式端口不能为空哦~")
+		logs.Log.Warning(" *     —— Pro, the distributed port can't be empty~")
 		return false
 	}
 	return true
@@ -653,7 +653,8 @@ func (self *Logic) checkPort() bool {
 
 func (self *Logic) checkAll() bool {
 	if self.AppConf.Master == "" || !self.checkPort() {
-		logs.Log.Warning(" *     —— 亲，服务器地址不能为空哦~")
+		logs.Log.Warning(" *     —— Pro, the server address can't be empty~")
+		logs.Log.Warning(" *     —— Pro, the server address can't be empty~")
 		return false
 	}
 	return true

@@ -23,7 +23,7 @@ func serverWindow() {
 			DataSource:     Input,
 			ErrorPresenter: ErrorPresenterRef{&ep},
 		},
-		Title:   config.FULL_NAME + "                                                          【 运行模式 -> 服务器 】",
+		Title:   config.FULL_NAME + "                                                          【 Operating mode -> Server 】",
 		MinSize: Size{1100, 700},
 		Layout:  VBox{MarginsZero: true},
 		Children: []Widget{
@@ -41,8 +41,8 @@ func serverWindow() {
 						ColumnsOrderable:      true,
 						Columns: []TableViewColumn{
 							{Title: "#", Width: 45},
-							{Title: "任务", Width: 110 /*, Format: "%.2f", Alignment: AlignFar*/},
-							{Title: "描述", Width: 370},
+							{Title: "Task", Width: 110 /*, Format: "%.2f", Alignment: AlignFar*/},
+							{Title: "Description", Width: 370},
 						},
 						Model: spiderMenu,
 					},
@@ -55,7 +55,7 @@ func serverWindow() {
 							VSplitter{
 								Children: []Widget{
 									Label{
-										Text: "自定义配置（多任务请分别多包一层“<>”）",
+										Text: "Custom configuration（Multi-task, please pack a layer of "<>"）",
 									},
 									LineEdit{
 										Text: Bind("Keyins"),
@@ -66,7 +66,7 @@ func serverWindow() {
 							VSplitter{
 								Children: []Widget{
 									Label{
-										Text: "*采集上限（默认限制URL数）：",
+										Text: "*Acquisition limit (default limit URL number)：",
 									},
 									NumberEdit{
 										Value:    Bind("Limit"),
@@ -79,7 +79,7 @@ func serverWindow() {
 							VSplitter{
 								Children: []Widget{
 									Label{
-										Text: "*并发协程：（1~99999）",
+										Text: "*Concurrent coroutine：（1~99999）",
 									},
 									NumberEdit{
 										Value:    Bind("ThreadNum", Range{1, 99999}),
@@ -92,7 +92,7 @@ func serverWindow() {
 							VSplitter{
 								Children: []Widget{
 									Label{
-										Text: "*分批输出大小：（1~5,000,000 条数据）",
+										Text: "*Batch output size: (1~5,000,000 data)",
 									},
 									NumberEdit{
 										Value:    Bind("DockerCap", Range{1, 5000000}),
@@ -105,7 +105,7 @@ func serverWindow() {
 							VSplitter{
 								Children: []Widget{
 									Label{
-										Text: "*暂停时长参考:",
+										Text: "*Pause duration:",
 									},
 									ComboBox{
 										Value:         Bind("Pausetime", SelRequired{}),
@@ -119,7 +119,7 @@ func serverWindow() {
 							VSplitter{
 								Children: []Widget{
 									Label{
-										Text: "*代理IP更换频率:",
+										Text: "*Proxy IP replacement frequency:",
 									},
 									ComboBox{
 										Value:         Bind("ProxyMinute", SelRequired{}),
@@ -132,7 +132,7 @@ func serverWindow() {
 
 							RadioButtonGroupBox{
 								ColumnSpan: 1,
-								Title:      "*输出方式",
+								Title:      "*Output Method",
 								Layout:     HBox{},
 								DataMember: "OutType",
 								Buttons:    outputList,
@@ -155,7 +155,7 @@ func serverWindow() {
 						MaxSize: Size{220, 50},
 						Children: []Widget{
 							Label{
-								Text: "继承并保存成功记录",
+								Text: "Inherit and save a successful record",
 							},
 							CheckBox{
 								Checked: Bind("SuccessInherit"),
@@ -167,7 +167,7 @@ func serverWindow() {
 						MaxSize: Size{220, 50},
 						Children: []Widget{
 							Label{
-								Text: "继承并保存失败记录",
+								Text: "Inherit and save the failed record",
 							},
 							CheckBox{
 								Checked: Bind("FailureInherit"),
@@ -208,7 +208,7 @@ func serverStart() {
 	Input.Spiders = spiderMenu.GetChecked()
 
 	if len(Input.Spiders) == 0 {
-		logs.Log.Warning(" *     —— 亲，任务列表不能为空哦~")
+		logs.Log.Warning(" *     —— Pro, the task list can't be empty~")
 		return
 	}
 

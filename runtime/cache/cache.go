@@ -10,12 +10,12 @@ import (
 
 // 任务运行时公共配置
 type AppConf struct {
-	Mode           int    // 节点角色
-	Port           int    // 主节点端口
-	Master         string // 服务器(主节点)地址，不含端口
+	Mode           int    // Node role
+	Port           int    // Master Node Port
+	Master         string // Server(主节点)地址，不含端口
 	ThreadNum      int    // 全局最大并发量
-	Pausetime      int64  // 暂停时长参考/ms(随机: Pausetime/2 ~ Pausetime*2)
-	OutType        string // 输出方式
+	Pausetime      int64  // Pause duration/ms(随机: Pausetime/2 ~ Pausetime*2)
+	OutType        string // Output Method
 	DockerCap      int    // 分段转储容器容量
 	Limit          int64  // 采集上限，0为不限，若在规则中设置初始值为LIMIT则为自定义限制，否则默认限制请求数
 	ProxyMinute    int64  // 代理IP更换的间隔分钟数
@@ -77,26 +77,26 @@ func PageFailCount() {
 	atomic.AddUint64(&pageSum[1], 1)
 }
 
-//****************************************init函数执行顺序控制*******************************************\\
+//****************************************Init function execution order control*******************************************\\
 
 var initOrder = make(map[int]bool)
 
-// 标记当前init()已执行完毕
+// Mark the current init() has been executed
 func ExecInit(order int) {
 	initOrder[order] = true
 }
 
-// 等待指定init()执行完毕
-// 需并发协程中调用
+// Waiting for the specified init() to complete
+// Need to be called in the concurrent coroutine
 func WaitInit(order int) {
 	for !initOrder[order] {
 		runtime.Gosched()
 	}
 }
 
-//****************************************初始化*******************************************\\
+//****************************************initialization*******************************************\\
 
 func init() {
-	// 任务报告
+	// Task report
 	ReportChan = make(chan *Report)
 }

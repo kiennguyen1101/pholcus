@@ -20,7 +20,7 @@ func offlineWindow() {
 			DataSource:     Input,
 			ErrorPresenter: ErrorPresenterRef{&ep},
 		},
-		Title:   config.FULL_NAME + "                                                          【 运行模式 ->  单机 】",
+		Title:   config.FULL_NAME + "                                                          【 Operating mode ->  Stand-alone 】",
 		MinSize: Size{1100, 700},
 		Layout:  VBox{MarginsZero: true},
 		Children: []Widget{
@@ -52,7 +52,7 @@ func offlineWindow() {
 							VSplitter{
 								Children: []Widget{
 									Label{
-										Text: "自定义配置（多任务请分别多包一层“<>”）：",
+										Text: "Custom configuration（Multi-task, please pack a layer of "<>"）:",
 									},
 									LineEdit{
 										Text: Bind("Keyins"),
@@ -76,7 +76,7 @@ func offlineWindow() {
 							VSplitter{
 								Children: []Widget{
 									Label{
-										Text: "*并发协程：（1~99999）",
+										Text: "*Concurrent coroutine：（1~99999）",
 									},
 									NumberEdit{
 										Value:    Bind("ThreadNum", Range{1, 99999}),
@@ -102,7 +102,7 @@ func offlineWindow() {
 							VSplitter{
 								Children: []Widget{
 									Label{
-										Text: "*暂停时长参考:",
+										Text: "*Pause duration:",
 									},
 									ComboBox{
 										Value:         Bind("Pausetime", SelRequired{}),
@@ -116,7 +116,7 @@ func offlineWindow() {
 							VSplitter{
 								Children: []Widget{
 									Label{
-										Text: "*代理IP更换频率:",
+										Text: "*Proxy IP replacement frequency:",
 									},
 									ComboBox{
 										Value:         Bind("ProxyMinute", SelRequired{}),
@@ -155,7 +155,7 @@ func offlineWindow() {
 						MaxSize: Size{220, 50},
 						Children: []Widget{
 							Label{
-								Text: "继承并保存成功记录",
+								Text: "Inherit and save a successful record",
 							},
 							CheckBox{
 								Checked: Bind("SuccessInherit"),
@@ -167,7 +167,7 @@ func offlineWindow() {
 						MaxSize: Size{220, 50},
 						Children: []Widget{
 							Label{
-								Text: "继承并保存失败记录",
+								Text: "Inherit and save the failed record",
 							},
 							CheckBox{
 								Checked: Bind("FailureInherit"),
@@ -245,11 +245,6 @@ func offlineRunStop() {
 
 	// 读取任务
 	Input.Spiders = spiderMenu.GetChecked()
-
-	// if len(Input.Spiders) == 0 {
-	// 	logs.Log.Warning(" *     —— 亲，任务列表不能为空哦~")
-	// 	return
-	// }
 
 	runStopBtn.SetText("停止")
 

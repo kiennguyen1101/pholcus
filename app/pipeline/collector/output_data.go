@@ -49,8 +49,3 @@ func (self *Collector) outputData() {
 		self.Spider.TryFlushSuccess()
 	}
 }
-
-// 注册output
-func Register(outType string, outFunc func(self *Collector) (err error)) {
-	DataOutput[outType] = outFunc
-}

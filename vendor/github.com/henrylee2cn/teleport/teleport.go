@@ -70,7 +70,7 @@ type Teleport interface {
 type TP struct {
 	// 本节点唯一标识符
 	uid string
-	// 运行模式 1 SERVER  2 CLIENT (用于判断自身模式)
+	// Operating mode 1 SERVER  2 CLIENT (用于判断自身模式)
 	mode int
 	// 服务器端口号，格式如":9988"
 	port string

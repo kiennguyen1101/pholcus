@@ -5,8 +5,8 @@ type Task struct {
 	Id             int
 	Spiders        []map[string]string // 蜘蛛规则name字段与keyin字段，规定格式map[string]string{"name":"baidu","keyin":"henry"}
 	ThreadNum      int                 // 全局最大并发量
-	Pausetime      int64               // 暂停时长参考/ms(随机: Pausetime/2 ~ Pausetime*2)
-	OutType        string              // 输出方式
+	Pausetime      int64               // Pause duration/ms(随机: Pausetime/2 ~ Pausetime*2)
+	OutType        string              // Output Method
 	DockerCap      int                 // 分段转储容器容量
 	DockerQueueCap int                 // 分段输出池容量，不小于2
 	SuccessInherit bool                // 继承历史成功记录

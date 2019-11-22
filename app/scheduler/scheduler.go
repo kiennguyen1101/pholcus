@@ -42,7 +42,7 @@ func Init() {
 		}
 	} else {
 		sdl.useProxy = false
-		logs.Log.Informational(" *     不使用代理IP\n")
+		logs.Log.Informational(" *     Do not use proxy IP\n")
 	}
 
 	sdl.status = status.RUN
